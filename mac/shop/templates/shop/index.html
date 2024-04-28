@@ -7,8 +7,8 @@ margin-left: -4px;
 }
 
 .col-md-3 img {
-width: 255px;
-height: 255px;
+width: 227px;
+max-height: 242px;
 }
 
 .carousel-indicators .active {
@@ -46,7 +46,7 @@ padding-right: 0;
 
 <!--    Slide Show starts here-->
     {% for product, range, nSlides in allProds %}
-    <h1>{{product.0.category}}</h1>
+    <h4 class="my-4">{{product.0.category}} - Recommended Items For You</h4>
     <div id="demo{{forloop.counter}}" class="carousel slide my-3" data-ride="carousel">
         <ul class="carousel-indicators">
             <li data-bs-target="#demo{{forloop.counter}}" data-bs-slide-to="0" class="active"></li>
