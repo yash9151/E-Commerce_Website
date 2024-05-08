@@ -66,7 +66,7 @@ padding-right: 0;
                     <div class="card" style="width: 18rem;">
                         <img src="/media/{{i.image}}" class="card-img-top" alt="...">
                         <div class="card-body">
-                            <h5 class="card-title">{{i.product_name}}</h5>
+                            <h5 class="card-title" id ="namepr{{i.id}}">{{i.product_name}}</h5>
                                 <p class="card-text">{{i.desc|slice:"0:53"}}...</p>
                                 <span id="divpr{{i.id}}" class="divpr">
                                     <button id="pr{{i.id}}" class="btn btn-primary cart">Add To Cart</button>
@@ -118,9 +118,33 @@ padding-right: 0;
         cart[idstr] = cart[idstr] + 1;
     } else {
         cart[idstr] = 1;
-        updateCart(cart);
     }
+        updateCart(cart);
     });
+
+<!--    //Add Popover to cart-->
+    updatePopover(cart);
+    function updatePopover(cart) {
+        var popStr = "<div class='row mx-2 my-2'>";
+        var i = 1;
+        for (var item in cart){
+            popStr += i + '. ';
+            popStr += document.getElementById('name' + item).innerHTML.slice(0, 19) + "... Qty: " + cart[item] + '<br>';
+            i++;
+        }
+        popStr = popStr + "</div>";
+
+        console.log(popStr);
+
+        document.getElementById('popcart').setAttribute('data-bs-content', popStr);
+        var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
+        var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+            return new bootstrap.Popover(popoverTriggerEl, {
+                html: true // Enable HTML content
+            });
+        });
+    }
+
 
     function updateCart(cart) {
     for (var item in cart) {
@@ -129,6 +153,7 @@ padding-right: 0;
     localStorage.setItem('cart', JSON.stringify(cart));
     document.getElementById('cart').innerHTML = Object.keys(cart).length;
     console.log(cart);
+    updatePopover(cart);
     }
 <!--    // If plus or minus button is clicked, change the cart as well as the display value-->
     $('.divpr').on("click", "button.minus", function() {
@@ -150,12 +175,12 @@ padding-right: 0;
 
 
 </script>
-<script type="text/javascript">
-      var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
-      var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
-      return new bootstrap.Popover(popoverTriggerEl);
-    });
-</script>
+<!--<script type="text/javascript">-->
+<!--      var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));-->
+<!--      var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {-->
+<!--      return new bootstrap.Popover(popoverTriggerEl);-->
+<!--    });-->
+<!--</script>-->
 {% endblock %}
 
 <!--<!doctype html>-->
