@@ -31,7 +31,11 @@ class Orders(models.Model):
     items_json= models.CharField(max_length=5000)
     name=models.CharField(max_length=90)
     email=models.CharField(max_length=111)
+    phone=models.CharField(max_length=111, default="")
     address=models.CharField(max_length=111)
     city=models.CharField(max_length=111)
     state=models.CharField(max_length=111)
     zip_code=models.CharField(max_length=111)
+
+    def __str__(self):
+        return self.name
