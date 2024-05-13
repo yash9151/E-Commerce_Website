@@ -126,7 +126,7 @@ padding-right: 0;
             qty = 1;
             name = document.getElementById('name'+idstr).innerHTML
             price = document.getElementById('price'+idstr).innerHTML
-            cart[idstr] = [qty, name, price];
+            cart[idstr] = [qty, name, parseInt(price)];
         }
         updateCart(cart);
     });
