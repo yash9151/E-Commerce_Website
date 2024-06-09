@@ -7,14 +7,18 @@
                 {{post.title}}
             </h3>
             <div class="blog-post">
+                <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v20.0" nonce="TiygyUwu"></script>
                 <h2 class="blog-post-title">{{post.heading0}}</h2>
                 <p class="blog-post-meta">January 1, 2014 by <a href="#">CodeWithHarry</a></p>
+                <div class="fb-like" data-href="http://127.0.0.1:8000/blog/blogpost/{{post.post_id}}" data-width="" data-layout="" data-action="" data-size="" data-share="true"></div>
                 <h2>{{post.head0}}</h2>
                 <p>{{post.chead0}}</p>
                 <h2>{{post.head1}}</h2>
                 <p>{{post.chead1}}</p>
                 <h2>{{post.head2}}</h2>
                 <p>{{post.chead2}}</p>
+                <div class="fb-comments" data-href="http://127.0.0.1:8000/blog/blogpost/{{post.post_id}}" data-width="" data-numposts="5"></div>
+
             </div><!-- /.blog-post -->
         </div><!-- /.blog-main -->
         <aside class="col-md-4 blog-sidebar">
@@ -22,7 +26,7 @@
                 <h4 class="font-italic">About</h4>
                 <p class="mb-0">My Awesome Cart is an <em>ecommerce website</em>. You can use it for buying and searching items online. </p>
             </div>
-            <div class="p-4">
+            <div class="my-3 fb-share-button" data-href="http://127.0.0.1:8000/blog/blogpost/{{post.post_id}}" data-layout="" data-size=""><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2F127.0.0.1%3A8000%2Fblog%2Fblogpost%2F3&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Share</a></div>            <div class="p-4">
                 <h4 class="font-italic">Contact Us On: </h4>
                 <ol class="list-unstyled">
                     <li><a href="#">GitHub</a></li>
