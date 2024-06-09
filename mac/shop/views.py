@@ -1,8 +1,14 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from .models import Product, Contact, Orders, OrderUpdate
+from django.views.decorators.csrf import csrf_exempt
 from math import ceil
 import json
+from django.http import HttpResponse
+from PayTm import Checksum
+
+# MERCHANT_KEY = 'kbzk1DSbJiV_03p5';
+MERCHANT_KEY = 'yWtPp&P4Gqh!lPTr';
 
 # Create your views here.
 def index(request):
@@ -92,5 +98,73 @@ def checkout(request):
         update.save()
         thank = True
         id = order.order_id
-        return render(request, "shop/checkout.html", {'thank':thank, 'id':id})
+        # return render(request, "shop/checkout.html", {'thank':thank, 'id':id})
+        # Request paytm to transfer the amount to your account after payment by user
+        param_dict = {
+
+            # 'MID': 'WorldP64425807474247',
+            'MID': 'ffyvpw67039918604874',
+            'ORDER_ID': str(order.order_id),
+            'TXN_AMOUNT': str(amount),
+            'CUST_ID': email,
+            'INDUSTRY_TYPE_ID': 'Retail',
+            'WEBSITE': 'WEBSTAGING',
+            'CHANNEL_ID': 'WEB',
+            'CALLBACK_URL': 'http://127.0.0.1:8000/shop/handlerequest/',
+
+        }
+        param_dict['CHECKSUMHASH'] = Checksum.generate_checksum(param_dict, MERCHANT_KEY)
+        return render(request, 'shop/paytm.html', {'param_dict': param_dict})
     return render(request, "shop/checkout.html")
+
+#
+@csrf_exempt
+# def handlerequest(request):
+#     # paytm will send you post request here
+#     form = request.POST
+#     response_dict = {}
+#     for i in form.keys():
+#         response_dict[i] = form[i]
+#         if i == 'CHECKSUMHASH':
+#             checksum = form[i]
+#
+#     verify = Checksum.verify_checksum(response_dict, MERCHANT_KEY, checksum)
+#     if verify:
+#         if response_dict['RESPCODE'] == '01':
+#             print('order successful')
+#         else:
+#             print('order was not successful because' + response_dict['RESPMSG'])
+#     # return HttpResponse("Done")
+#     # pass
+#     return render(request, 'shop/paymentstatus.html', {'response': response_dict})
+
+@csrf_exempt
+def handlerequest(request):
+    if request.method == "POST":
+        try:
+            form = request.POST
+            response_dict = {}
+            checksum = None  # Initialize checksum variable
+            for key in form.keys():
+                response_dict[key] = form[key]
+                if key == 'CHECKSUMHASH':
+                    checksum = form[key]  # Assign value to checksum
+
+            if checksum is not None:  # Check if checksum is assigned a value
+                verify = Checksum.verify_checksum(response_dict, MERCHANT_KEY, checksum)
+                if verify:
+                    if response_dict['RESPCODE'] == '01':
+                        print('Order successful')
+                    else:
+                        print('Order was not successful because: ' + response_dict['RESPMSG'])
+                else:
+                    print('Checksum verification failed')
+            else:
+                print('Checksum not found in the response')
+
+            return render(request, 'shop/paymentstatus.html', {'response': response_dict})
+
+        except Exception as e:
+            return HttpResponse("Error in payment processing: " + str(e))
+
+    return HttpResponse("Invalid request method")
