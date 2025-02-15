@@ -1,4 +1,6 @@
-This project deals with developing a Virtual website ‘E-commerce Website’. It provides the user with a list of the various products available for purchase in the store. For the convenience of online shopping, a shopping cart is provided to the user. After the selection of the goods, it is sent for the order confirmation process. The system is implemented using Python’s web framework Django. 
+E-commerce Website: A Comprehensive Online Shopping Platform
+
+This project involves the development of an advanced E-commerce website designed to provide users with a seamless online shopping experience. The platform offers a wide range of products for purchase, complete with detailed descriptions and images. To enhance the convenience of online shopping, the website includes a robust shopping cart feature. Once users have selected their desired products, they can proceed to the order confirmation process, ensuring a smooth transaction from start to finish.
 
 
 ![image](https://github.com/yash9151/E-Commerce_Website/assets/68458253/37bfbe56-e4e7-4818-88d7-dcfc74245bad)
